@@ -3,22 +3,22 @@ kind: Job
 metadata:
   name: db-check-job
   annotations:
-    argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   backoffLimit: 2
   template:
     spec:
       restartPolicy: Never
       containers:
-        - name: check
+        - name: db-check
           image: busybox
           command:
             - "sh"
             - "-c"
-            - "echo 'Running db check to $DB_HOST...'; sleep 5; echo 'Connected!'"
-          env:
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: db-config
-                  key: db_host
+            - "echo 'Running db check to $DB_HOST'; sleep 5; echo 'Connected!'"
+            env:
+              - name: DB_HOST
+                valueFrom:
+                  configMapRef:
+                    name: db-config
+                    key: db_host
