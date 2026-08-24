@@ -16,9 +16,9 @@ spec:
             - "sh"
             - "-c"
             - "echo 'Running db check to $DB_HOST'; sleep 5; echo 'Connected!'"
-            env:
-              - name: DB_HOST
-                valueFrom:
-                  configMapRef:
-                    name: db-config
-                    key: db_host
+         env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: db_host
